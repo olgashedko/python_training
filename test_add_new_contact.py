@@ -14,7 +14,7 @@ class AddNewGroup(unittest.TestCase):
     def test_add_new_group(self):
         wd = self.wd
         self.go_to_home_page(wd)
-        self.login(wd)
+        self.login(wd, user_name="admin", password="secret")
         self.go_to_new_contact_page(wd)
         self.add_new_contact(wd)
         self.go_home_page(wd)
@@ -99,12 +99,12 @@ class AddNewGroup(unittest.TestCase):
     def go_to_new_contact_page(self, wd):
         wd.find_element_by_link_text("add new").click()
 
-    def login(self, wd):
+    def login(self, wd, user_name, password):
         wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys("admin")
+        wd.find_element_by_name("user").send_keys(user_name)
         wd.find_element_by_name("pass").click()
         wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys("secret")
+        wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_xpath("//input[@value='Login']").click()
 
     def go_to_home_page(self, wd):
