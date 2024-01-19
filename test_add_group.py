@@ -21,6 +21,7 @@ class UntitledTestCase(unittest.TestCase):
 
     def geate_new_group(self, group):
         wd = self.wd
+        #go to group page
         self.open_group_page()
         # create new group
         wd.find_element_by_name("new").click()

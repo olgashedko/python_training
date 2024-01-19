@@ -26,6 +26,7 @@ class AddNewGroup(unittest.TestCase):
 
     def add_new_contact(self, contact):
         wd = self.wd
+        # go to new contact page
         self.go_to_new_contact_page()
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
