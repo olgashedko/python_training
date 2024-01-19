@@ -12,21 +12,21 @@ class AddNewGroup(unittest.TestCase):
         self.wd.implicitly_wait(30)
 
     def test_add_new_group(self):
-        wd = self.wd
-        self.go_to_home_page(wd)
-        self.login(wd, user_name="admin", password="secret")
-        self.go_to_new_contact_page(wd)
-        self.add_new_contact(wd, Contact(firstname="Petr", middlename="Petrovich", lastname="Petrov", nickname="Petya", company="Company", title="title", address="SPb, str 1-1-1", home="111-11-11", mobile="+7921-111-11-11", work="222-22-22", fax="222-22-22", email="test@test.com", email2="test2@test.com", email3="test3@test.com", homepage="localpage", bday="11", byear="2000", bmonth="November", aday="23", amonth="November", ayear="2000"))
-        self.go_home_page(wd)
-        self.logout(wd)
+        self.login(user_name="admin", password="secret")
+        self.add_new_contact(Contact(firstname="Petr", middlename="Petrovich", lastname="Petrov", nickname="Petya", company="Company", title="title", address="SPb, str 1-1-1", home="111-11-11", mobile="+7921-111-11-11", work="222-22-22", fax="222-22-22", email="test@test.com", email2="test2@test.com", email3="test3@test.com", homepage="localpage", bday="11", byear="2000", bmonth="November", aday="23", amonth="November", ayear="2000"))
+        self.logout()
 
-    def logout(self, wd):
+    def logout(self):
+        wd = self.wd
         wd.find_element_by_link_text("Logout").click()
 
-    def go_home_page(self, wd):
+    def go_home_page(self):
+        wd = self.wd
         wd.find_element_by_link_text("home").click()
 
-    def add_new_contact(self, wd, contact):
+    def add_new_contact(self, contact):
+        wd = self.wd
+        self.go_to_new_contact_page()
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(contact.firstname)
@@ -89,11 +89,15 @@ class AddNewGroup(unittest.TestCase):
         wd.find_element_by_name("new_group").click()
         wd.find_element_by_xpath("//option[@value='[none]']").click()
         wd.find_element_by_xpath("//div[@id='content']/form/input[20]").click()
+        self.go_home_page()
 
-    def go_to_new_contact_page(self, wd):
+    def go_to_new_contact_page(self):
+        wd = self.wd
         wd.find_element_by_link_text("add new").click()
 
-    def login(self, wd, user_name, password):
+    def login(self, user_name, password):
+        wd = self.wd
+        self.go_to_home_page()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(user_name)
         wd.find_element_by_name("pass").click()
@@ -101,7 +105,8 @@ class AddNewGroup(unittest.TestCase):
         wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_xpath("//input[@value='Login']").click()
 
-    def go_to_home_page(self, wd):
+    def go_to_home_page(self):
+        wd = self.wd
         wd.get("http://localhost/addressbook/index.php")
 
     def is_element_present(self, how, what):
