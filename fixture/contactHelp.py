@@ -1,22 +1,16 @@
-from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 
 
-class Application2:
-    def __init__(self):
-        self.wd = webdriver.Firefox()
-        self.wd.implicitly_wait(30)
-
-    def logout(self):
-        wd = self.wd
-        wd.find_element_by_link_text("Logout").click()
+class ContactHelper:
+    def __init__(self, app):
+        self.app = app
 
     def go_home_page(self):
-        wd = self.wd
+        wd = self.app.wd
         wd.find_element_by_link_text("home").click()
 
     def add_new_contact(self, contact):
-        wd = self.wd
+        wd = self.app.wd
         # go to new contact page
         self.go_to_new_contact_page()
         wd.find_element_by_name("firstname").click()
@@ -84,22 +78,5 @@ class Application2:
         self.go_home_page()
 
     def go_to_new_contact_page(self):
-        wd = self.wd
+        wd = self.app.wd
         wd.find_element_by_link_text("add new").click()
-
-    def login(self, user_name, password):
-        wd = self.wd
-        self.go_to_home_page()
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys(user_name)
-        wd.find_element_by_name("pass").click()
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys(password)
-        wd.find_element_by_xpath("//input[@value='Login']").click()
-
-    def go_to_home_page(self):
-        wd = self.wd
-        wd.get("http://localhost/addressbook/index.php")
-
-    def destroy(self):
-        self.wd.quit()
