@@ -1,14 +1,7 @@
 # -*- coding: utf-8 -*-
-import pytest
+import time
+
 from model.contact import Contact
-from fixture.application import Application
-
-
-@pytest.fixture()
-def app(request):
-    fixture = Application()
-    request.addfinalizer(fixture.destroy)
-    return fixture
 
 
 def test_add_new_group(app):
@@ -20,3 +13,4 @@ def test_add_new_group(app):
                 email3="test3@test.com", homepage="localpage", bday="11", byear="2000", bmonth="November",
                 aday="23", amonth="November", ayear="2000"))
     app.session.logout()
+    time.sleep(1)
