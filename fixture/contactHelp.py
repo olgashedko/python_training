@@ -14,6 +14,7 @@ class ContactHelper:
         wd = self.app.wd
         # go to new contact page
         self.go_to_new_contact_page()
+        # fill contact data
         self.fill_contact_data(contact)
         wd.find_element_by_xpath("//div[@id='content']/form/input[20]").click()
         self.go_home_page()
@@ -39,6 +40,7 @@ class ContactHelper:
         # click change first contact icon
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
         time.sleep(0.5)
+        # fill contact data
         self.fill_contact_data(contact)
         wd.find_element_by_name("update").click()
         self.go_home_page()

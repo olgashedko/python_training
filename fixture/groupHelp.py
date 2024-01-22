@@ -40,7 +40,7 @@ class GroupHelper:
         wd.find_element_by_name("selected[]").click()
         # click edit button
         wd.find_element_by_name("edit").click()
-        # fill group parameters
+        # fill group data
         self.fill_group_data(group)
         # submit changes
         wd.find_element_by_name("update").click()
