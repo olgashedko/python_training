@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 import pytest
 from contact import Contact
-from application2 import Application2
+from application import Application
 
 
 @pytest.fixture()
 def app(request):
-    fixture = Application2()
+    fixture = Application()
     request.addfinalizer(fixture.destroy)
     return fixture
 
 
 def test_add_new_group(app):
-    app.login(user_name="admin", password="secret")
+    app.login(username="admin", password="secret")
     app.add_new_contact(
         Contact(firstname="Petr", middlename="Petrovich", lastname="Petrov", nickname="Petya", company="Company",
                 title="title", address="SPb, str 1-1-1", home="111-11-11", mobile="+7921-111-11-11",
