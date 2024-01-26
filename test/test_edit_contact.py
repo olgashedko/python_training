@@ -1,9 +1,9 @@
-import time
-
 from model.contact import Contact
 
 
 def test_edit_first_contact(app):
+    if app.contactHelp.count() == 0:
+        app.contactHelp.add_new_contact(Contact(firstname="Alex"))
     app.contactHelp.edit_first_contact(
         Contact(firstname="Ivan", middlename="Ivanovich", lastname="Ivanov", nickname="Vanya", company="Company",
                 title="title", address="SPb, str 1-1-1", home="111-11-11", mobile="+7921-111-11-11",
