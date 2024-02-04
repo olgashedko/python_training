@@ -18,12 +18,15 @@ class GroupHelper:
         self.open_group_page()
         self.group_cache = None
 
-    def delete_first_group(self):
+    def delete_first_group(self, index):
+        self.delete_group_by_index(0)
+
+    def delete_group_by_index(self, index):
         wd = self.app.wd
         # go to group page
         self.open_group_page()
         # click element
-        self.select_first_group()
+        self.select_group_by_index(index)
         # submit deletion
         wd.find_element_by_name("delete").click()
         self.open_group_page()
@@ -34,24 +37,13 @@ class GroupHelper:
         if not (wd.current_url.endswith("group.php") and len(wd.find_elements_by_name("new")) > 0):
             wd.find_element_by_link_text("groups").click()
 
-    def edit_first_group(self, group):
-        wd = self.app.wd
-        # go to group page
-        self.open_group_page()
-        self.select_first_group()
-        # click edit button
-        wd.find_element_by_name("edit").click()
-        # fill group data
-        self.fill_group_data(group)
-        # submit changes
-        wd.find_element_by_name("update").click()
-        self.open_group_page()
-        self.group_cache = None
-
-    def select_first_group(self):
+    def select_group_by_index(self, index):
         wd = self.app.wd
         # select first group
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
+
+    def select_first_group(self):
+        self.select_group_by_index(0)
 
     def fill_group_data(self, group):
         wd = self.app.wd
@@ -67,10 +59,13 @@ class GroupHelper:
             wd.find_element_by_name(field_name).send_keys(text)
 
     def modify_first_group(self, group):
+        self.modify_group_by_index(group, 0)
+
+    def modify_group_by_index(self, group, index):
         wd = self.app.wd
         # go to group page
         self.open_group_page()
-        self.select_first_group()
+        self.select_group_by_index(index)
         # click edit button
         wd.find_element_by_name("edit").click()
         # fill group data
