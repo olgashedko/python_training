@@ -22,6 +22,7 @@ class ContactHelper:
         self.fill_contact_data(contact)
         wd.find_element_by_xpath("//div[@id='content']/form/input[20]").click()
         self.go_home_page()
+        self.contact_cache = None
 
     def go_to_new_contact_page(self):
         wd = self.app.wd
@@ -36,6 +37,7 @@ class ContactHelper:
         # submit deletion
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         self.go_home_page()
+        self.contact_cache = None
 
     def edit_first_contact(self, contact):
         wd = self.app.wd
@@ -48,6 +50,7 @@ class ContactHelper:
         self.fill_contact_data(contact)
         wd.find_element_by_name("update").click()
         self.go_home_page()
+        self.contact_cache = None
 
     def fill_contact_data(self, contact):
         wd = self.app.wd
@@ -91,14 +94,17 @@ class ContactHelper:
         self.go_home_page()
         return len(wd.find_elements_by_name("selected[]"))
 
+    contact_cache = None
+
     def get_contact_list(self):
-        wd = self.app.wd
-        self.go_home_page()
-        contact_list = []
-        for element in wd.find_elements_by_name("entry"):
-            first_name = element.find_element(By.CSS_SELECTOR, "td:nth-child(3)").text
-            last_name = element.find_element(By.CSS_SELECTOR, "td:nth-child(2)").text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            contact_list.append(Contact(firstname=first_name, lastname=last_name, contact_id=id))
-        return contact_list
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.go_home_page()
+            self.contact_cache = []
+            for element in wd.find_elements_by_name("entry"):
+                first_name = element.find_element(By.CSS_SELECTOR, "td:nth-child(3)").text
+                last_name = element.find_element(By.CSS_SELECTOR, "td:nth-child(2)").text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.contact_cache.append(Contact(firstname=first_name, lastname=last_name, contact_id=id))
+        return list(self.contact_cache)
 
