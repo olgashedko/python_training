@@ -118,8 +118,11 @@ class ContactHelper:
                 last_name = element.find_element(By.CSS_SELECTOR, "td:nth-child(2)").text
                 id = element.find_element_by_name("selected[]").get_attribute("value")
                 all_phones = element.find_element(By.CSS_SELECTOR, "td:nth-child(6)").text
+                address = element.find_element(By.CSS_SELECTOR, "td:nth-child(4)").text
+                all_emails = element.find_element(By.CSS_SELECTOR, "td:nth-child(5)").text
                 self.contact_cache.append(Contact(firstname=first_name, lastname=last_name, contact_id=id,
-                                                  all_contacts_from_home_page=all_phones))
+                                                  all_contacts_from_home_page=all_phones, full_address=address,
+                                                  all_emails=all_emails))
         return list(self.contact_cache)
 
     def get_contact_info_from_edit_page(self, index):
@@ -131,7 +134,11 @@ class ContactHelper:
         homephone = wd.find_element_by_name("home").get_attribute("value")
         workphone = wd.find_element_by_name("work").get_attribute("value")
         mobilephone = wd.find_element_by_name("mobile").get_attribute("value")
-        return Contact(firstname=firstname, lastname=lastname, contact_id=id, home=homephone, work=workphone, mobile=mobilephone)
+        email = wd.find_element_by_name("email").get_attribute("value")
+        email2 = wd.find_element_by_name("email2").get_attribute("value")
+        email3 = wd.find_element_by_name("email3").get_attribute("value")
+        return Contact(firstname=firstname, lastname=lastname, contact_id=id, home=homephone, work=workphone,
+                       mobile=mobilephone, email=email, email2=email2, email3=email3)
 
 
     def get_contact_info_from_view_page(self, index):

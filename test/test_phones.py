@@ -23,6 +23,6 @@ def clear(s):
 
 def merge_phones(contact):
     return "\n".join(filter(lambda x: x != "",
-                            map(lambda x: clear(x), filter(lambda x: x != "",
+                            map(lambda x: clear(x), filter(lambda x: x is not None,
                                                            [contact.home, contact.mobile, contact.work]))))
 
