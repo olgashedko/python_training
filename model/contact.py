@@ -36,8 +36,8 @@ class Contact:
         return "%s%s%s" % (self.firstname, self.lastname, self.contact_id)
 
     def __eq__(self, other):
-        return (
-                    self.contact_id is None or other.contact_id is None or self.contact_id == other.contact_id) and self.firstname == other.firstname and self.lastname == other.lastname
+        return ((self.contact_id is None or other.contact_id is None or self.contact_id == other.contact_id) and
+                self.firstname == other.firstname and self.lastname == other.lastname)
 
     def id_or_max(self):
         if self.contact_id:
