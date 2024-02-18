@@ -6,11 +6,10 @@ import time
 import pytest
 
 from model.contact import Contact
-from data.contacts import testdata
 
 
-@pytest.mark.parametrize("contact", testdata, ids=[repr(x) for x in testdata])
-def test_add_new_contact(app, contact):
+def test_add_new_contact(app, json_contact):
+    contact = json_contact
     old_contacts = app.contactHelp.get_contact_list()
     app.contactHelp.add_new_contact(contact)
     assert len(old_contacts) + 1 == app.contactHelp.count()

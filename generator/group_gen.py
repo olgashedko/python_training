@@ -29,7 +29,7 @@ def random_string(prefix, maxlen):
     return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 
-testdata = [Group(group_name="", group_header="", group_footer="")] + [
+testdata = [
     Group(group_name=random_string("name", 10), group_header=random_string("header", 20),
           group_footer=random_string("footer", 20))
     for i in range(n)
