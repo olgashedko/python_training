@@ -91,6 +91,19 @@ class GroupHelper:
         self.open_group_page()
         self.group_cache = None
 
+    def modify_group_by_id(self, group, id):
+        wd = self.app.wd
+        # go to group page
+        self.open_group_page()
+        self.select_group_by_id(id)
+        # click edit button
+        wd.find_element_by_name("edit").click()
+        # fill group data
+        self.fill_group_data(group)
+        # submit changes
+        wd.find_element_by_name("update").click()
+        self.open_group_page()
+        self.group_cache = None
     def count(self):
         wd = self.app.wd
         self.open_group_page()
