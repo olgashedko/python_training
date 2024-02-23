@@ -1,19 +1,14 @@
 # -*- coding: utf-8 -*-
-import random
-import string
 import time
-
-import pytest
-
 from model.contact import Contact
 
 
-def test_add_new_contact(app, json_contact):
+def test_add_new_contact(app, json_contact, db, check_ui):
     contact = json_contact
-    old_contacts = app.contactHelp.get_contact_list()
+    old_contacts = db.get_contact_list()
     app.contactHelp.add_new_contact(contact)
-    assert len(old_contacts) + 1 == app.contactHelp.count()
-    new_contacts = app.contactHelp.get_contact_list()
+    new_contacts = db.get_contact_list()
     old_contacts.append(contact)
-    time.sleep(2)
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
+    if check_ui:
+        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contactHelp.get_contact_list(), key=Contact.id_or_max)
