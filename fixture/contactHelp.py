@@ -39,6 +39,10 @@ class ContactHelper:
         self.go_home_page()
         # click element
         wd.find_elements_by_name("selected[]")[index].click()
+        self.submit_deletion(wd)
+
+    def submit_deletion(self, wd):
+        wd = self.app.wd
         # submit deletion
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         self.go_home_page()
@@ -50,10 +54,7 @@ class ContactHelper:
         self.go_home_page()
         # click element
         wd.find_element_by_css_selector("input[value='%s" % id).click()
-        # submit deletion
-        wd.find_element_by_xpath("//input[@value='Delete']").click()
-        self.go_home_page()
-        self.contact_cache = None
+        self.submit_deletion(wd)
 
     def edit_first_contact(self, contact):
         self.edit_contact_by_index(contact, 0)
@@ -61,18 +62,35 @@ class ContactHelper:
     def edit_contact_by_index(self, contact, index):
         wd = self.app.wd
         self.open_contact_to_edit_by_index(index)
+        self.submit_contact_update(contact, wd)
+
+    def submit_contact_update(self, contact, wd):
+        wd = self.app.wd
         # fill contact data
         self.fill_contact_data(contact)
         wd.find_element_by_name("update").click()
         self.go_home_page()
         self.contact_cache = None
 
+    def edit_contact_by_id(self, contact, id):
+        wd = self.app.wd
+        self.open_contact_to_edit_by_id(id)
+        self.submit_contact_update(contact, wd)
+
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd
         # go to home page
         self.go_home_page()
-        # click change first contact icon
+        # click change contact icon
         wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
+        time.sleep(0.5)
+
+    def open_contact_to_edit_by_id(self, id):
+        wd = self.app.wd
+        # go to home page
+        self.go_home_page()
+        # click change  contact icon
+        wd.find_element_by_css_selector("a[href='edit.php?id=%s" % id).click()
         time.sleep(0.5)
 
     def fill_contact_data(self, contact):
