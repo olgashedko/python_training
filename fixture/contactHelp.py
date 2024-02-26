@@ -187,4 +187,12 @@ class ContactHelper:
         # click change first contact icon
         wd.find_elements_by_xpath("//img[@alt='Details']")[index].click()
 
+  #  def add_contact_to_group(self, contact, group):
+  #      wd = self.app.wd
+        # go to home page
+  #      self.go_home_page()
+        # select contact
+   #     wd.find_element_by_css_selector("input[id='=%s" % contact.contact_id).click()
+
+
 
