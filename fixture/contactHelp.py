@@ -187,12 +187,27 @@ class ContactHelper:
         # click change first contact icon
         wd.find_elements_by_xpath("//img[@alt='Details']")[index].click()
 
-  #  def add_contact_to_group(self, contact, group):
-  #      wd = self.app.wd
+    def add_contact_to_group(self, contact, group):
+        wd = self.app.wd
         # go to home page
-  #      self.go_home_page()
+        self.go_home_page()
         # select contact
-   #     wd.find_element_by_css_selector("input[id='=%s" % contact.contact_id).click()
+        wd.find_element_by_id(contact.contact_id).click()
+        select = wd.find_element_by_name("to_group")
+        select.find_element_by_css_selector("[value='%s" % group.group_id).click()
+        time.sleep(0.2)
+        wd.find_element_by_name("add").click()
 
+    def delete_contact_from_group(self, contact, group):
+        wd = self.app.wd
+        # go to selected group page
+        group_page_url = self.app.base_url + "?group=" + str(group.group_id)
+        wd.get(group_page_url)
+        # select contact
+        wd.find_element_by_id(contact.contact_id).click()
+        wd.find_element_by_name("remove").click()
+    #    select.find_element_by_css_selector("[value='%s" % group.group_id).click()
+    #    time.sleep(0.2)
+    #    wd.find_element_by_name("add").click()
 
 
