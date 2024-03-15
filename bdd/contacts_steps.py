@@ -15,12 +15,12 @@ def new_contact(firstname, lastname, middlename, work, home, mobile):
 
 
 @when('I add the contact to the list', target_fixture='add_new_contact')
-def add_new_group(app, new_contact):
+def add_new_contact(app, new_contact):
     app.contactHelp.add_new_contact(new_contact)
 
 
 @then('the new contact list is equal to the old list with the added contact', target_fixture='verify_contact_added')
-def verify_group_added(db, contact_list, new_contact):
+def verify_contact_added(db, contact_list, new_contact):
     old_contacts = contact_list
     new_contacts = db.get_contact_list()
     old_contacts.append(new_contact)
@@ -45,7 +45,7 @@ def delete_group(app, random_contact):
 
 
 @then('the new contact list is equal to the old list without the deleted contact', target_fixture='verify_contact_deleted')
-def verify_group_deleted(db, non_empty_contact_list, random_contact, app, check_ui):
+def verify_contact_deleted(db, non_empty_contact_list, random_contact, app, check_ui):
     old_contacts = non_empty_contact_list
     new_contacts = db.get_contact_list()
     assert len(old_contacts) -1 == len(new_contacts)
@@ -53,3 +53,24 @@ def verify_group_deleted(db, non_empty_contact_list, random_contact, app, check_
     assert old_contacts == new_contacts
     if check_ui:
         assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
+
+
+@when('I edit the contact from the list', target_fixture='edit_contact')
+def edit_contact(app, random_contact, new_contact):
+    app.contactHelp.edit_contact_by_id(new_contact, random_contact.contact_id)
+
+
+@then('the new contact list is equal to the old list with the modified contact', target_fixture='verify_contact_edited')
+def verify_contact_edited(db, non_empty_contact_list, random_contact, app, check_ui, new_contact):
+    old_contacts = non_empty_contact_list
+    modified_contact = new_contact
+    modified_contact.contact_id = random_contact.contact_id
+    new_contacts = db.get_contact_list()
+    for index in range(0, len(old_contacts)):
+        if old_contacts[index].contact_id == random_contact.contact_id:
+            old_contacts[index] = modified_contact
+    assert old_contacts == new_contacts
+    if check_ui:
+        assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
+
+
