@@ -6,6 +6,7 @@ import jsonpickle
 import pytest
 from fixture.db import DbFixture
 from fixture.application import Application
+from fixture.orm import ORMFixture
 
 fixture = None
 target = None
@@ -82,3 +83,11 @@ def load_from_module(module):
 def load_from_json(file):
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data\\%s.json" % file)) as f:
         return jsonpickle.decode(f.read())
+
+
+@pytest.fixture(scope="session")
+def ormdb(request):
+    ormdb_config = load_config(request.config.getoption("--target"))['db']
+    ormdb_fixture = ORMFixture(host=ormdb_config['host'], name=ormdb_config['name'], user=ormdb_config['user'],
+                               password=ormdb_config['password'])
+    return ormdb_fixture
